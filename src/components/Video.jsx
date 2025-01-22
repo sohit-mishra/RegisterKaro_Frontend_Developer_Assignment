@@ -4,7 +4,7 @@ import { FaPlay } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
 import bulb from '../assets/bulb.svg';
 import stock from '../assets/stock.svg';
-import Girl from '../assets/Girl.jpeg';
+import Girl from '../assets/girl.jpeg';
 
 export default function Video() {
     const [isPlaying, setIsPlaying] = useState(false);
