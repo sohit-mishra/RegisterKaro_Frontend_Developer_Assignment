@@ -1,5 +1,5 @@
 import React from 'react';
-import Mobile from '../assets/Mobile.svg';
+import Mobile from '../assets/mobile.svg';
 import { Box, Text, Heading, Flex, Image } from '@chakra-ui/react';
 import { FaApple, FaGooglePlay } from 'react-icons/fa';
 
