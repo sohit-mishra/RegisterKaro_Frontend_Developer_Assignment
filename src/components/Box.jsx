@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Flex, Text, Circle, Image } from '@chakra-ui/react';
 import Mail from '../assets/mail.svg';
 import Executive from '../assets/executive.svg';
-import Card from '../assets/Card.svg';
+import Card from '../assets/card.svg';
 import forum from '../assets/forum.svg';
 
 export default function BoxComponent() {
