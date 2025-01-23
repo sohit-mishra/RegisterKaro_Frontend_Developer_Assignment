@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -18,14 +18,15 @@ import {
   useDisclosure,
   IconButton,
 } from "@chakra-ui/react";
-import { CiMail } from "react-icons/ci";
+import { CiMail, CiSearch } from "react-icons/ci";
 import { FaPhone, FaInstagram, FaFacebook, FaTwitter, FaPinterest, FaAngleDown } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
+import { IoMdMenu } from "react-icons/io";
 import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();  // Chakra hook for Drawer functionality
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
@@ -36,24 +37,39 @@ export default function Navbar() {
       {/* Top Bar (Contacts and Socials) */}
       <Flex align="center" justify="flex-end" display={{ base: "none", md: "flex" }} bg="rgba(28, 70, 112, 1)" p={2} color="white">
         <Flex align="center" gap={4}>
-          <Link display="flex" alignItems="center" borderRight="1px solid white" pr={4} href="mailto:info@registerkaro.in" isExternal>
+          <Link
+            display="flex"
+            alignItems="center"
+            borderRight="1px solid white"
+            pr={4}
+            href="mailto:info@registerkaro.in"
+            isExternal
+            aria-label="Send an email to info@registerkaro.in"
+          >
             <CiMail size="20px" style={{ marginRight: "8px" }} />
             <Text>www.registerkaro.in</Text>
           </Link>
-          <Link display="flex" alignItems="center" href="tel:+918447746183" borderRight="1px solid white" pr={4}>
+          <Link
+            display="flex"
+            alignItems="center"
+            href="tel:+918447746183"
+            borderRight="1px solid white"
+            pr={4}
+            aria-label="Call +91 8447746183"
+          >
             <FaPhone size="20px" style={{ marginRight: "8px" }} />
             <Text>+91 8447746183</Text>
           </Link>
-          <Link href="https://www.instagram.com/registerkaro_/" isExternal>
+          <Link href="https://www.instagram.com/registerkaro_/" isExternal aria-label="Visit Instagram page">
             <FaInstagram size="20px" />
           </Link>
-          <Link href="https://www.facebook.com/RegisterKaro1/" isExternal>
+          <Link href="https://www.facebook.com/RegisterKaro1/" isExternal aria-label="Visit Facebook page">
             <FaFacebook size="20px" />
           </Link>
-          <Link href="https://mobile.twitter.com/registerkaro" isExternal>
+          <Link href="https://mobile.twitter.com/registerkaro" isExternal aria-label="Visit Twitter page">
             <FaTwitter size="20px" />
           </Link>
-          <Link href="https://in.pinterest.com/registerkaro212/" isExternal>
+          <Link href="https://in.pinterest.com/registerkaro212/" isExternal aria-label="Visit Pinterest page">
             <FaPinterest size="20px" />
           </Link>
         </Flex>
@@ -61,8 +77,11 @@ export default function Navbar() {
 
       {/* Main Navbar */}
       <Flex align="center" justify="space-between" p={4} bg="white" boxShadow="md">
+        {/* Logo */}
         <Box>
-          <Image src={logo} alt="Register Karo Logo" height="50px" />
+          <Link href="/" aria-label="Go to homepage">
+            <Image src={logo} alt="Register Karo Logo" height="50px" />
+          </Link>
         </Box>
 
         {/* Desktop Navbar Links */}
@@ -70,7 +89,14 @@ export default function Navbar() {
           <Link fontSize="lg" href="/" _hover={{ textDecoration: "none", color: "blue.500" }}>
             Home
           </Link>
-          <Link fontSize="lg" href="/services" _hover={{ textDecoration: "none", color: "blue.500" }} display="flex" alignItems="center" width={"130px"}>
+          <Link
+            fontSize="lg"
+            href="/services"
+            _hover={{ textDecoration: "none", color: "blue.500" }}
+            display="flex"
+            alignItems="center"
+            width={"130px"}
+          >
             Our Services <FaAngleDown style={{ marginLeft: "4px" }} />
           </Link>
           <Link fontSize="lg" href="/blog" _hover={{ textDecoration: "none", color: "blue.500" }}>
@@ -85,7 +111,14 @@ export default function Navbar() {
 
           {showSearch ? (
             <InputGroup maxW="200px">
-              <Input placeholder="Search" size="sm" borderRadius="md" focusBorderColor="blue.500" onBlur={toggleSearch} outline={"none"} />
+              <Input
+                placeholder="Search"
+                size="sm"
+                borderRadius="md"
+                focusBorderColor="blue.500"
+                onBlur={toggleSearch}
+                outline="none"
+              />
               <InputRightElement>
                 <CiSearch size="20px" cursor="pointer" onClick={toggleSearch} style={{ color: "gray.500" }} />
               </InputRightElement>
@@ -94,7 +127,16 @@ export default function Navbar() {
             <CiSearch size="24px" cursor="pointer" onClick={toggleSearch} style={{ marginLeft: "8px" }} />
           )}
 
-          <Button bg="rgba(255, 162, 41, 1)" color="white" _hover={{ bg: "orange.500" }} px={6} py={3} borderRadius="md" fontWeight="bold" boxShadow="md">
+          <Button
+            bg="rgba(255, 162, 41, 1)"
+            color="white"
+            _hover={{ bg: "orange.500" }}
+            px={6}
+            py={3}
+            borderRadius="md"
+            fontWeight="bold"
+            boxShadow="md"
+          >
             Talk to an Expert
           </Button>
         </Flex>
@@ -102,45 +144,46 @@ export default function Navbar() {
         {/* Mobile Hamburger Icon to Open Drawer */}
         <IconButton
           display={{ base: "flex", md: "none" }}
-          icon={<FaAngleDown />}
+          icon={<IoMdMenu />}
           aria-label="Open Menu"
           onClick={onOpen}
           bg="transparent"
           color="black"
           _hover={{ bg: "transparent" }}
+          ref={btnRef}
         />
       </Flex>
 
       {/* Drawer Component for Mobile */}
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef} bg="white">
         <DrawerOverlay>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Menu</DrawerHeader>
+          <DrawerContent bg={'white'}>
+            <DrawerCloseButton display={'flex'} m={5} justifyContent={'flex-end'}/>
+            <DrawerHeader><Image src={logo} width={300} margin={'0 auto'}/></DrawerHeader>
 
-            <DrawerBody>
-              <Link display="block" py={2} href="/" _hover={{ textDecoration: "none", color: "blue.500" }}>
+            <DrawerBody display={'flex'} mt={50} flexDirection={'column'} alignItems={'center'}>
+              <Link display="block" py={2} href="/" _hover={{ textDecoration: "none", color: "blue.500" }} onClick={onClose}>
                 Home
               </Link>
-              <Link display="block" py={2} href="/services" _hover={{ textDecoration: "none", color: "blue.500" }}>
+              <Link display="block" py={2} href="/services" _hover={{ textDecoration: "none", color: "blue.500" }} onClick={onClose}>
                 Our Services
               </Link>
-              <Link display="block" py={2} href="/blog" _hover={{ textDecoration: "none", color: "blue.500" }}>
+              <Link display="block" py={2} href="/blog" _hover={{ textDecoration: "none", color: "blue.500" }} onClick={onClose}>
                 Blog
               </Link>
-              <Link display="block" py={2} href="/contact" _hover={{ textDecoration: "none", color: "blue.500" }}>
+              <Link display="block" py={2} href="/contact" _hover={{ textDecoration: "none", color: "blue.500" }} onClick={onClose}>
                 Contact Us
               </Link>
-              <Link display="block" py={2} href="/about" _hover={{ textDecoration: "none", color: "blue.500" }}>
+              <Link display="block" py={2} href="/about" _hover={{ textDecoration: "none", color: "blue.500" }} onClick={onClose}>
                 About Us
               </Link>
               <Button
                 bg="rgba(255, 162, 41, 1)"
                 color="white"
                 _hover={{ bg: "orange.500" }}
-                width="100%"
-                py={3}
-                mt={4}
+                width="90%"
+                p={3}
+                mt={20}
                 borderRadius="md"
                 fontWeight="bold"
               >
